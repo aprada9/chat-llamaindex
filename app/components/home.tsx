@@ -1,14 +1,11 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
-
 import { QueryClient, QueryClientProvider } from "react-query";
 import { useMobileScreen } from "../utils/mobile";
-
 import dynamic from "next/dynamic";
 import { Path } from "../constant";
 import { ErrorBoundary } from "./layout/error";
-
 import {
   Route,
   HashRouter as Router,
@@ -18,6 +15,8 @@ import {
 import { Bot, useBotStore } from "../store/bot";
 import { SideBar } from "./layout/sidebar";
 import { LoadingPage } from "@/app/components/ui/loading";
+import TopBar from "@/app/components/ui/TopBar";
+import BotList from "@/app/components/bot/bot-list";
 
 const SettingsPage = dynamic(
   async () => (await import("./settings")).Settings,
@@ -142,7 +141,11 @@ export function Home({ bot }: { bot?: Bot }) {
       <Router>
         <QueryClientProvider client={queryClient}>
           <SidebarContextProvider>
-            <BotScreen />
+            <TopBar tabs={[{ name: "bots", label: "Bots tab" }]}>
+              <div name="bots">
+                <BotScreen />
+              </div>
+            </TopBar>
           </SidebarContextProvider>
         </QueryClientProvider>
       </Router>
